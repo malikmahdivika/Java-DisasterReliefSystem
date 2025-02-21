@@ -16,12 +16,23 @@ public class DisasterVictim {
 	
 	public DisasterVictim(String firstName, String ENTRY_DATE) throws IllegalArgumentException {
 		this.setFirstName(firstName);
-		this.ENTRY_DATE = ENTRY_DATE;
+		
+		if (isValidDateFormat(ENTRY_DATE)) {
+			this.ENTRY_DATE = ENTRY_DATE;
+		} else {
+			throw new IllegalArgumentException("Date must be in format YYYY-MM-DD");
+		}
 	}
 	
-	public DisasterVictim(String firstName, String ENTRY_DATE, String dateOfBirth) {
+	public DisasterVictim(String firstName, String ENTRY_DATE, String dateOfBirth) throws IllegalArgumentException{
 		this.setFirstName(firstName);
-		this.ENTRY_DATE = ENTRY_DATE;
+		
+		if (isValidDateFormat(ENTRY_DATE)) {
+			this.ENTRY_DATE = ENTRY_DATE;
+		} else {
+			throw new IllegalArgumentException("Date must be in format YYYY-MM-DD");
+		}
+		
 		this.setDateOfBirth(dateOfBirth); //uses DOB setter to check for proper format
 	}
 
@@ -43,6 +54,10 @@ public class DisasterVictim {
 
 	public String getDateOfBirth() {
 		return dateOfBirth;
+	}
+	
+	public String getEntryDate() {
+		return this.ENTRY_DATE;
 	}
 
 	public void setDateOfBirth(String dateOfBirth) throws IllegalArgumentException {
