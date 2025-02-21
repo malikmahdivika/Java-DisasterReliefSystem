@@ -43,6 +43,7 @@ public class MedicalRecord {
 	}
 	
 	private static boolean isValidDateFormat(String date) {
+		//same implementation as in DisasterVictim
 		Pattern dateRegex = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}");
 		Matcher dateMatcher = dateRegex.matcher(date);
 		

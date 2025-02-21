@@ -5,6 +5,7 @@ public class FamilyRelation {
 	private String relationshipTo;
 	private DisasterVictim personTwo;
 	
+	//Logic for this class are just simple getters/setters and a constructor
 	public FamilyRelation(DisasterVictim personOne,
 			String relationshipTo, DisasterVictim personTwo) {
 		this.setPersonOne(personOne);

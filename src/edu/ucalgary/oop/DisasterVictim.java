@@ -122,6 +122,7 @@ public class DisasterVictim {
 	}
 	
 	public void addPersonalBelonging(Supply supply) {
+		//fix later: null pointer exception when this.personalBelongings is null
 		Supply[] newPersonalBelongings = new Supply[this.personalBelongings.length + 1];
 		
 		int i = 0;
