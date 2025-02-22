@@ -30,13 +30,16 @@ public class DisasterVictim {
 	public DisasterVictim(String firstName, String ENTRY_DATE, String dateOfBirth) throws IllegalArgumentException{
 		this.setFirstName(firstName);
 		
-		if (isValidDateFormat(ENTRY_DATE)) {
+		//throws exception when entry date > birth date (when entry is after birth date) 
+		if (isValidDateFormat(ENTRY_DATE) && 
+				convertDateStringToInt(ENTRY_DATE) > convertDateStringToInt(dateOfBirth)) {
 			this.ENTRY_DATE = ENTRY_DATE;
+			this.setDateOfBirth(dateOfBirth); //uses DOB setter to check for proper format
 		} else {
 			throw new IllegalArgumentException("Date must be in format YYYY-MM-DD");
 		}
 		
-		this.setDateOfBirth(dateOfBirth); //uses DOB setter to check for proper format
+		
 	}
 
 	public String getFirstName() {
@@ -122,36 +125,101 @@ public class DisasterVictim {
 	}
 	
 	public void addPersonalBelonging(Supply supply) {
-		//fix later: null pointer exception when this.personalBelongings is null
-		Supply[] newPersonalBelongings = new Supply[this.personalBelongings.length + 1];
-		
-		int i = 0;
-		for (Supply belonging : this.personalBelongings) {
-			newPersonalBelongings[i] = belonging;
-			i++;
+		//separate two cases, when personalBelongings is and is not null.
+		if (this.personalBelongings == null) {
+			//when null, make new supply array
+			this.personalBelongings = new Supply[] {supply};
+		} else {	//else, make new array of size n+1
+			Supply[] newPersonalBelongings = new Supply[this.personalBelongings.length + 1];
+			
+			int i = 0;
+			for (Supply belonging : this.personalBelongings) {
+				newPersonalBelongings[i] = belonging;
+				i++;
+			}
+			newPersonalBelongings[i] = supply;
+			this.personalBelongings = newPersonalBelongings;
 		}
 		
-		this.personalBelongings = newPersonalBelongings;
+		
 	}
 	
 	public void removePersonalBelonging(Supply unwantedSupply) {
-		//TODO implement method
+		//if there is no array to delete from, simply return
+		if (this.personalBelongings == null) {
+			return;
+		} else {
+			Supply[] newPersonalBelongings = new Supply[this.personalBelongings.length - 1];
+			
+			int i = 0;
+			for (Supply belonging : this.personalBelongings) {
+				if (belonging.equals(unwantedSupply)) {
+					continue;
+				}
+				newPersonalBelongings[i] = belonging;
+				i++;
+			}
+			this.personalBelongings = newPersonalBelongings;
+		}
 	}
 	
 	public void addFamilyConnection(FamilyRelation record) {
-		//TODO implement method
+		//separate two cases, when personalBelongings is and is not null.
+		if (this.familyConnections == null) {
+			//when null, make new supply array
+			this.familyConnections = new FamilyRelation[] {record};
+		} else {	//else, make new array of size n+1
+			FamilyRelation[] newFamilyConnections = 
+					new FamilyRelation[this.familyConnections.length + 1];
+			
+			int i = 0;
+			for (FamilyRelation connection : this.familyConnections) {
+				newFamilyConnections[i] = connection;
+				i++;
+			}
+			newFamilyConnections[i] = record;
+			this.familyConnections = newFamilyConnections;
+		}					
 	}
 	
 	public void removeFamilyConnection(FamilyRelation exRelation) {
-		//TODO implement method
+		//if there is no array to delete from, simply return
+		if (this.familyConnections == null) {
+			return;
+		} else {
+			FamilyRelation[] newFamilyConnections = new 
+					FamilyRelation[this.familyConnections.length - 1];
+				
+			int i = 0;
+			for (FamilyRelation connection : this.familyConnections) {
+				if (connection.equals(exRelation)) {
+					continue;
+				}
+				newFamilyConnections[i] = connection;
+				i++;
+			}
+			this.familyConnections = newFamilyConnections;
+		}
 	}
 
 	private static boolean isValidDateFormat(String date) {
 		Pattern dateRegex = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}");
+		//YYYY-MM-DD format
 		Matcher dateMatcher = dateRegex.matcher(date);
 		
+		//check for MM-DD and not DD-MM
 		if (dateMatcher.matches()) {
-			return true;
+			String month = date.substring(5, 7);
+			String day = date.substring(8, 10);
+			
+			if (Integer.parseInt(month) > 12 || Integer.parseInt(month) < 0) {
+				return false;
+			} else if (Integer.parseInt(day) > 31 || Integer.parseInt(day) < 0) {
+				return false;
+			} else {
+				return true;
+			}
+			
 		} else {
 			return false;
 		}
@@ -160,5 +228,12 @@ public class DisasterVictim {
 	private static int generateSocialID() {
 		DisasterVictim.counter++;
 		return DisasterVictim.counter;
+	}
+	
+	private static int convertDateStringToInt(String dateStr) {
+		//assumes dateStr is in acceptable format; validate format before using this method
+		String withNoHyphens = dateStr.replaceAll("-", "");
+		
+		return Integer.parseInt(withNoHyphens);
 	}
 }
