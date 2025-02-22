@@ -209,7 +209,7 @@ public void testRemoveFamilyConnection() {
                 correct = false;
             }
         }
-    assertTrue("removeFamilyConnection should remove the family member", true);
+    assertTrue("removeFamilyConnection should remove the family member", correct);
 }  
 
 @Test
@@ -228,7 +228,7 @@ public void testRemovePersonalBelonging() {
                 correct = false;
             }
         }
-    assertTrue("removePersonalBelonging should remove the supply from personal belongings", true);
+    assertTrue("removePersonalBelonging should remove the supply from personal belongings", correct);
 }
 
 
