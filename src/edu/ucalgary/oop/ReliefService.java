@@ -2,6 +2,7 @@ package edu.ucalgary.oop;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ReliefService {
@@ -78,7 +79,7 @@ public class ReliefService {
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
     public String getLogDetails() {
