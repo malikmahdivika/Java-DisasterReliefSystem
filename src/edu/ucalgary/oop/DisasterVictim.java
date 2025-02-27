@@ -209,17 +209,7 @@ public class DisasterVictim {
 		
 		//check for MM-DD and not DD-MM
 		if (dateMatcher.matches()) {
-			String month = date.substring(5, 7);
-			String day = date.substring(8, 10);
-			
-			if (Integer.parseInt(month) > 12 || Integer.parseInt(month) < 0) {
-				return false;
-			} else if (Integer.parseInt(day) > 31 || Integer.parseInt(day) < 0) {
-				return false;
-			} else {
-				return true;
-			}
-			
+			return true;
 		} else {
 			return false;
 		}
